@@ -1,0 +1,1 @@
+Creates object bP which can be used to create bipartite visualizations of data. 
