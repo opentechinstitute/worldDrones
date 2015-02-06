@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+ <head>
+ <link type="text/css" rel="stylesheet" href="colorbrewer.css"/>
+ <style>
+body{
+	width:1200px;
+	margin:100px auto;
+}
+svg text{
+	font-size:12px;
+}
+rect{
+	shape-rendering:crispEdges;
+}
+
+    html {
+    font-family: Sans-serif;
+    font-size: .9em;
+    color: #1a1a1a;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    }
+    div#page {
+    width: 85%;
+    padding: 0;
+    margin: 2em 10%;
+    background: #ccc;
+    border: 1px solid #aaa;
+    }
+    h1 {
+      text-align: center;
+    }
+
+</style>
+  <script src="jquery-2.1.1.min.js"></script>
+  <script src="ckan-basics.js"></script>
+  <script src="auth.js"></script>
+  <script src="http://d3js.org/colorbrewer.v1.min.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="biPartite2.js"></script>
+  <script type="text/javascript">
+      // this is a jquery document ready function, this actually fires all the actions
+    // on pageload for this tutorial.
+    $(document).ready(function() {
+      //firequery('');
+    });
+    </script>
+ </head>
+<body>
+
+<script>
+	var sales_data = [];
+	var width = 1100, height = 900, margin ={b:0, t:40, l:170, r:50};
+
+	var svg = d3.select("body")
+	.append("svg").attr('width',width).attr('height',(height+margin.b+margin.t))
+	.append("g").attr("transform","translate("+ margin.l+","+margin.t+")");
+
+	d3.json("https://data.opentechinstitute.org/api/action/datastore_search?resource_id=2f91e923-9239-4f6a-833b-3d7564cd15f0&data=data")
+		.header("Authorization", getAuthToken())
+		.get(function(error, data){
+			if (error) return console.warn(error);
+				var records = data.result.records;
+
+			    $.each( records, function( k, v ) {
+
+                var term = v.name.replace(/ +$/, "");
+                
+                var imports = v.imports_from;
+                var imp_arr = imports.split(",");
+
+                var exports = v.exports_to;
+                var exp_arr = exports.split(",");
+
+                var nato = v.NATO;
+                if(nato == 1) { imp_arr.push("NATO");}
+
+                var domestic = v.domestic_production;
+                var dom_arr = [];
+                if(domestic == 1) { dom_arr.push(term);}
+
+                for(i = 0; i < imp_arr.length; i++){
+                		if(imp_arr[i].trim() != "none"){
+                     	   var t = [imp_arr[i].trim(), term, "1", "something"];
+                        	sales_data.push(t);
+                    	}
+                            for (j = 0; j < exp_arr.length; j++){
+                                if(exp_arr[j].trim() !="none"){
+                                	var t2 = [term, exp_arr[j].trim(), "1", "something"];
+                                	sales_data.push(t2);
+                            	}
+                            }
+
+                }
+
+                var tier1, tier2, tier2plus;
+                
+                if(v.tier_i == 1) {tier1 = "Yes";}
+                	else if (v.tier_i == 0) {tier1 = "No"}
+                	else { tier1 == v.tier_i;}
+
+                if(v.tier_ii == 1) {tier2 = "Yes";}
+                	else if (v.tier_ii == 0) {tier2 = "No"}
+                	else { tier2 == v.tier_ii;}
+
+                if(v.tier_ii_plus == 1) {tier2plus = "Yes";}
+                	else if (v.tier_ii_plus == 0) {tier2plus = "No"}
+                	else { tier2plus == v.tier_ii_plus;}
+
+
+                if(term == "Israel" || term == "United Kingdom" || term == "United States of America"){ 
+                    $('table#table1').append('<tr><td>' + 
+                    	term + '</td><td>' + 
+                    	v.desc + '</td><td>' + 
+                    	tier1 + '</td><td>' + 
+                    	tier2 + '</td><td>' + 
+                    	tier2plus +'</td></tr>');
+                }
+
+                else if(term == "China"|| term == "France" || term == "Iran"){ 
+                    $('table#table2').append('<tr><td>' + 
+                    	term + '</td><td>' + 
+                    	v.desc + '</td><td>' + 
+                    	tier1 + '</td><td>' + 
+                    	tier2 + '</td><td>' + 
+                    	tier2plus +'</td></tr>');
+                }
+
+                else {
+                    $('table#table3').append('<tr><td>' + 
+                    	term + '</td><td>' + 
+                    	v.desc + '</td><td>' + 
+                    	tier1 + '</td><td>' + 
+                    	tier2 + '</td><td>' + 
+                    	tier2plus +'</td></tr>');
+                }
+
+            });
+
+			//console.log(sales_data);
+
+
+	var data = [ 
+		{data:bP.partData(sales_data,2), id:'SalesAttempts', header:["From","To", "Export/Import", "Continent"]},
+	];
+
+	bP.draw(data, svg);
+
+});
+
+</script>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel-group" id="accordion">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+              Countries with Drones Used in Combat
+            </a>
+          </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse in">
+          <div class="panel-body">
+            <table id="table1" class="table table-bordered">
+            <thead><tr><th></th><th>Source of Technology</th><th>Tier I<br />(Low altitude, long endurance)</th><th>Tier II<br />(High altitude, long endurance)</th><th>Tier II+<br />(Medium altitude, long endurance)</th></tr></thead>
+            <!-- Israel, UK, US -->
+            </table>
+           </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+              Countries with Armed Drones
+            </a>
+          </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse">
+          <div class="panel-body">
+            <table id="table2" class="table table-bordered">
+            <thead><tr><th></th><th>Source of Technology</th><th>Tier I<br />(Low altitude, long endurance)</th><th>Tier II<br />(High altitude, long endurance)</th><th>Tier II+<br />(Medium altitude, long endurance)</th></tr></thead>
+            <!-- China, France, Iran -->
+
+
+            </table>
+           </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+              Countries with Drones 
+            </a>
+          </h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse collapse">
+          <div class="panel-body">
+            <table id="table3" class="table table-bordered">
+            <thead><tr><th></th><th>Source of Technology</th><th>Tier I<br />(Low altitude, long endurance)</th><th>Tier II<br />(High altitude, long endurance)</th><th>Tier II+<br />(Medium altitude, long endurance)</th></tr></thead>
+               
+            </table>
+           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>

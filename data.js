@@ -1,29 +1,4 @@
-<!DOCTYPE html>
-<meta charset="utf-8">
- <head>
- <link type="text/css" rel="stylesheet" href="colorbrewer.css"/>
- <style>
-body{
-	width:1200px;
-	margin:100px auto;
-}
-svg text{
-	font-size:12px;
-}
-rect{
-	shape-rendering:crispEdges;
-}
-</style>
-
- </head>
-<body>
-<script src="http://d3js.org/colorbrewer.v1.min.js"></script>
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="biPartite2.js"></script>
-
-
-<script>
-var sales_data=[
+var old_data=[
 	['United States of America','Australia',1,'North America'],
 	['United States of America','Burundi',1,'North America'],
 	['United States of America','Colombia',1,'North America'],
@@ -103,18 +78,3 @@ var sales_data=[
 	['Belarus','Vietnam',1,'Europe'],
 	['Armenia','Denmark',1,'Europe'],
 ];
-
-var width = 1100, height = 900, margin ={b:0, t:40, l:170, r:50};
-
-var svg = d3.select("body")
-	.append("svg").attr('width',width).attr('height',(height+margin.b+margin.t))
-	.append("g").attr("transform","translate("+ margin.l+","+margin.t+")");
-
-var data = [ 
-	{data:bP.partData(sales_data,2), id:'SalesAttempts', header:["From","To", "Export/Import", "Continent"]},
-];
-
-bP.draw(data, svg);
-
-</script>
-</body>

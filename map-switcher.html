@@ -1,0 +1,111 @@
+  <div class="row" style="margin-bottom:30px;">
+    <div class="col-lg-12">
+      <h2>Click on the tabs below to toggle our data</h2>
+      <ul id="myTab" class="nav nav-pills nav-justified">
+        <li class="active"><a href="#map1" data-toggle="tab">Who Uses Drones</a></li>
+        <li><a href="#map2" data-toggle="tab">Import and Export of Drones</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="row" style="margin-bottom:30px;">
+    <div id="myTabContent" class="tab-content">
+      <div id="map1" class="tab-pane fade in active" style="position:relative;">
+        <div class="col-lg-12">
+          <p>The maps on this site summarize which countries currently possess drones and how they have come to acquire the platforms, based on an analysis of thousands of news reports and government documents. Countries below are sorted into three groups: those who possess unmanned drones, those who possess armed unmanned drones, and those who use these drones in combat.</p>
+          <!-- <p>A country’s drone capabilities are classified according to the U.S. Air Force tier system. Tier I includes low altitude, long endurance drones like the Hermes 450; Tier II is comprised of medium altitude, long endurance drones like the Predator; and Tier II+ applies to high altitude, long endurance drones like the Global Hawk. Mini and micro drones are not classified in the tier system.</p> -->
+        </div>
+        <div class="col-lg-9">
+          <div id="content"></div>
+          <div class="btn-group btn-group-xs pull-right" style="position:absolute;top:10px;right:25px;">
+            <button id="tier_i" type="button" class="btn btn-danger">Has drones</button>
+            <button id="tier_ii" type="button" class="btn btn-danger">Has armed drones</button>
+            <button id="tier_ii_plus" type="button" class="btn btn-danger">Used drones in combat</button>
+          </div>
+        </div>
+        <div class="col-lg-3" style="position:relative;height:550px">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Click button to highlight countries</h3>
+            </div>
+            <div class="panel-body">And learn more about their drone arsenal.</div>
+          </div>
+          <div class="panel panel-default" style="position:absolute;bottom:0;margin-bottom:0;width:163px;">
+            <div class="panel-heading">
+              <h3 class="panel-title">Source information</h3>
+            </div>
+            <div class="panel-body"><a href="/sites/all/themes/bootstrap_subtheme/data/source.pdf">Click here</a> for our source information</div>
+          </div>
+        </div>
+      </div>
+      <div id="map2" class="tab-pane fade">
+        <div class="col-lg-10">
+          <div id="content2"></div>
+        </div>
+        <div class="col-lg-2">
+          <h2><span>Rollover countries to reveal where</span></h2>
+          <h3><span>Drones exported to</span></h3>
+          <h4><span></span></h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel-group" id="accordion">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+              Countries with Drones Used in Combat
+            </a>
+          </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse in">
+          <div class="panel-body">
+            <table id="table1" class="table table-bordered">
+            <thead><tr><th></th><th>Source of Technology</th><th>Tier I<br />(Low altitude, long endurance)</th><th>Tier II<br />(High altitude, long endurance)</th><th>Tier II+<br />(Medium altitude, long endurance)</th></tr></thead>
+            <!-- Israel, UK, US -->
+            </table>
+           </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+              Countries with Armed Drones
+            </a>
+          </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse">
+          <div class="panel-body">
+            <table id="table2" class="table table-bordered">
+            <thead><tr><th></th><th>Source of Technology</th><th>Tier I<br />(Low altitude, long endurance)</th><th>Tier II<br />(High altitude, long endurance)</th><th>Tier II+<br />(Medium altitude, long endurance)</th></tr></thead>
+            <!-- China, France, Iran -->
+
+
+            </table>
+           </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+              Countries with Drones 
+            </a>
+          </h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse collapse">
+          <div class="panel-body">
+            <table id="table3" class="table table-bordered">
+            <thead><tr><th></th><th>Source of Technology</th><th>Tier I<br />(Low altitude, long endurance)</th><th>Tier II<br />(High altitude, long endurance)</th><th>Tier II+<br />(Medium altitude, long endurance)</th></tr></thead>
+               
+            </table>
+           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

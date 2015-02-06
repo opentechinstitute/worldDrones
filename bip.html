@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+ <head>
+ <link type="text/css" rel="stylesheet" href="colorbrewer.css"/>
+ <style>
+body{
+	width:1200px;
+	margin:100px auto;
+}
+svg text{
+	font-size:12px;
+}
+rect{
+	shape-rendering:crispEdges;
+}
+
+    html {
+    font-family: Sans-serif;
+    font-size: .9em;
+    color: #1a1a1a;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    }
+    div#page {
+    width: 85%;
+    padding: 0;
+    margin: 2em 10%;
+    background: #ccc;
+    border: 1px solid #aaa;
+    }
+    h1 {
+      text-align: center;
+    }
+
+</style>
+  <script src="jquery-2.1.1.min.js"></script>
+  <script src="ckan-basics.js"></script>
+  <script src="http://d3js.org/colorbrewer.v1.min.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="biPartite2.js"></script>
+  <script type="text/javascript">
+      // this is a jquery document ready function, this actually fires all the actions
+    // on pageload for this tutorial.
+    $(document).ready(function() {
+      firequery('');
+    });
+    </script>
+ </head>
+<body>
+
+<script>
+var sales_data = []; 
+firequery('');
+
+var width = 1100, height = 900, margin ={b:0, t:40, l:170, r:50};
+
+var svg = d3.select("body")
+	.append("svg").attr('width',width).attr('height',(height+margin.b+margin.t))
+	.append("g").attr("transform","translate("+ margin.l+","+margin.t+")");
+
+var data = [ 
+	{data:bP.partData(sales_data,2), id:'SalesAttempts', header:["From","To", "Export/Import", "Continent"]},
+];
+
+bP.draw(data, svg);
+
+</script>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel-group" id="accordion">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+              Countries with Drones Used in Combat
+            </a>
+          </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse in">
+          <div class="panel-body">
+            <table id="table1" class="table table-bordered">
+            <thead><tr><th></th><th>Source of Technology</th><th>Tier I<br />(Low altitude, long endurance)</th><th>Tier II<br />(High altitude, long endurance)</th><th>Tier II+<br />(Medium altitude, long endurance)</th></tr></thead>
+            <!-- Israel, UK, US -->
+            </table>
+           </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+              Countries with Armed Drones
+            </a>
+          </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse">
+          <div class="panel-body">
+            <table id="table2" class="table table-bordered">
+            <thead><tr><th></th><th>Source of Technology</th><th>Tier I<br />(Low altitude, long endurance)</th><th>Tier II<br />(High altitude, long endurance)</th><th>Tier II+<br />(Medium altitude, long endurance)</th></tr></thead>
+            <!-- China, France, Iran -->
+
+
+            </table>
+           </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+              Countries with Drones 
+            </a>
+          </h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse collapse">
+          <div class="panel-body">
+            <table id="table3" class="table table-bordered">
+            <thead><tr><th></th><th>Source of Technology</th><th>Tier I<br />(Low altitude, long endurance)</th><th>Tier II<br />(High altitude, long endurance)</th><th>Tier II+<br />(Medium altitude, long endurance)</th></tr></thead>
+               
+            </table>
+           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
