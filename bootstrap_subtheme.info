@@ -1,0 +1,89 @@
+name = Bootstrap Sub-theme
+description = A Bootstrap Sub-theme.
+core = 7.x
+base theme = bootstrap
+
+
+;;;;;;;;;;;;;;;;;;;;;
+;; Regions
+;;;;;;;;;;;;;;;;;;;;;
+
+regions[header]     	    		= 'Top Bar'
+regions[highlighted]    			= 'Highlighted'
+regions[help]           			= 'Help'
+regions[content]        			= 'Content'
+regions[sidebar_first]  			= 'Primary'
+regions[sidebar_second] 			= 'Secondary'
+regions[footer]         			= 'Footer'
+regions[section_nav]  				= 'Section Navigation'
+;regions[page_graphic]  				= 'Page Graphic'
+;regions[page_map]  					= 'Page Map'
+;regions[page_tally]  				= 'Page Tally'
+;regions[page_map_horz]  			= 'Page Map Horizontal'
+;regions[page_tally_horz]  			= 'Page Tally Horizontal'
+;regions[analysis_primary_left]  	= 'Analysis Primary Left'
+;regions[analysis_primary_right]  	= 'Analysis Primary Right'
+;regions[analysis_secondary_left]  	= 'Analysis Secondary Left'
+;regions[analysis_secondary_right]	= 'Analysis Secondary Right'
+;regions[analysis_main_left]  		= 'Analysis Main Left'
+;regions[analysis_main_right]  		= 'Analysis Main Right'
+;regions[analysis_secondary_map]		= 'Analysis Secondary Map'
+;regions[analysis_left]  			= 'Analysis Left'
+;regions[analysis_right] 			= 'Analysis Right'
+regions[page_header_text] 			= 'Page Header Text'
+
+;;;;;;;;;;;;;;;;;;;;;
+;; Stylesheets
+;;;;;;;;;;;;;;;;;;;;;
+
+stylesheets[all][] = css/style.css
+stylesheets[all][] = css/bootstrap.css
+stylesheets[all][] = js/jqueryui/jquery-ui.min.css
+
+;scripts[] = bootstrap/js/bootstrap.js
+scripts[] = js/highcharts-4.0.0/js/highcharts.js
+scripts[] = js/highcharts-4.0.0/js/highcharts-3d.js
+scripts[] = js/highcharts-4.0.0/js/themes/naf.js
+scripts[] = js/leaflet/dist/leaflet.js
+scripts[] = js/underscore.js
+scripts[] = js/circle_packer_movers.js
+scripts[] = js/javascript.js
+scripts[] = js/biPartite2.js
+;scripts[] = js/leaflet.SliderControl.min.js
+
+; For information on choosing the desired method, please read the Drupal
+; Bootstrap sub-theme "how-to" documentation:
+; https://drupal.org/node/1978010
+
+; ;----------------------------------
+; ; METHOD 1: Bootstrap Source Files
+; ;----------------------------------
+; 
+; ;;;;;;;;;;;;;;;;;;;;;
+; ;; Scripts
+; ;;;;;;;;;;;;;;;;;;;;;
+; 
+; scripts[] = 'bootstrap/js/affix.js'
+; scripts[] = 'bootstrap/js/alert.js'
+; scripts[] = 'bootstrap/js/button.js'
+; scripts[] = 'bootstrap/js/carousel.js'
+; scripts[] = 'bootstrap/js/collapse.js'
+; scripts[] = 'bootstrap/js/dropdown.js'
+; scripts[] = 'bootstrap/js/modal.js'
+; scripts[] = 'bootstrap/js/tooltip.js'
+; scripts[] = 'bootstrap/js/popover.js'
+; scripts[] = 'bootstrap/js/scrollspy.js'
+; scripts[] = 'bootstrap/js/tab.js'
+; scripts[] = 'bootstrap/js/transition.js'
+;
+; ; Disable BootstrapCDN if using Bootstrap source files in your sub-theme.
+; settings[bootstrap_cdn] = ''
+
+
+; ;-------------------------
+; ; METHOD 2: Bootstrap CDN
+; ;-------------------------
+;
+; Method 2 uses BootstrapCDN, the only thing you might need to provide here
+; is overrides to Bootstrap theme settings. Copy them here from the base theme
+; to override.
