@@ -43,12 +43,7 @@ function buildDefaultDataObj() {
   var data = {
       resource_id : getResourceID(),
       // which fields to return, format like 
-/*       fields : 'name', 
-               'domestic_production',
-               'NATO',
-               'imports_from',
-               'exports_to',
-               'source',*/
+      //   fields
        limit: 500,
       // distinct : true, // this doesn't seem to work, but leaving in hope that it migh
   }
@@ -78,7 +73,7 @@ function firequery(query) {
     $.ajax({
         //  The authorization token must be sent in the request header,
         //  uncomment the line below to use a private data set
-        //    headers: {Authorization: getAuthToken()},
+        headers: {Authorization: getAuthToken()},
         url: getCkanUrl(),
         data: data,
         dataType: 'jsonp',
@@ -88,6 +83,7 @@ function firequery(query) {
             // at this point you have presumabely made a request, and gotten a result
             // and can start digging through the records.
             var records = data.result.records;
+            var sales_data = [];
             //console.log(records);
             // jquery loop through each of the returned result rows.
             $.each( records, function( k, v ) {
@@ -101,7 +97,6 @@ function firequery(query) {
 
                 var exports = v.exports_to;
                 var exp_arr = exports.split(",");
-
                 //console.log(exp_arr);
 
                 var nato = v.NATO;
@@ -143,6 +138,8 @@ function firequery(query) {
                 }
 
             });
+
+            return sales_data;
 
         }
     });
