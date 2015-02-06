@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+  <title>CKAN Tutorial script</title>
+
+  <style>
+    html {
+    font-family: Sans-serif;
+    font-size: .9em;
+    color: #1a1a1a;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    }
+    div#page {
+    width: 85%;
+    padding: 0;
+    margin: 2em 10%;
+    background: #ccc;
+    border: 1px solid #aaa;
+    }
+    h1 {
+      text-align: center;
+    }
+  </style>
+  <script src="jquery-2.1.1.min.js"></script>
+  <script src="ckan-basics.js"></script>
+  <script>
+    // this is a jquery document ready function, this actually fires all the actions
+    // on pageload for this tutorial.
+    $(document).ready(function() {
+      firequery('');
+    });
+  </script>
+
+</head>
+<body>
+  <div id="page">
+    <h1>CKan tutorial</h1>
+    <h2>All Countries:</h2>
+    <div id="term-heading"></div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel-group" id="accordion">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+              Countries with Drones Used in Combat
+            </a>
+          </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse in">
+          <div class="panel-body">
+            <table id="table1" class="table table-bordered">
+            <thead><tr><th></th><th>Source of Technology</th><th>Tier I<br />(Low altitude, long endurance)</th><th>Tier II<br />(High altitude, long endurance)</th><th>Tier II+<br />(Medium altitude, long endurance)</th></tr></thead>
+            <!-- Israel, UK, US -->
+            </table>
+           </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+              Countries with Armed Drones
+            </a>
+          </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse">
+          <div class="panel-body">
+            <table id="table2" class="table table-bordered">
+            <thead><tr><th></th><th>Source of Technology</th><th>Tier I<br />(Low altitude, long endurance)</th><th>Tier II<br />(High altitude, long endurance)</th><th>Tier II+<br />(Medium altitude, long endurance)</th></tr></thead>
+            <!-- China, France, Iran -->
+
+
+            </table>
+           </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+              Countries with Drones 
+            </a>
+          </h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse collapse">
+          <div class="panel-body">
+            <table id="table3" class="table table-bordered">
+            <thead><tr><th></th><th>Source of Technology</th><th>Tier I<br />(Low altitude, long endurance)</th><th>Tier II<br />(High altitude, long endurance)</th><th>Tier II+<br />(Medium altitude, long endurance)</th></tr></thead>
+               
+            </table>
+           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+</body>
+</html>
