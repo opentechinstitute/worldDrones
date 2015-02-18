@@ -58,7 +58,7 @@ rect{
 	.append("svg").attr('width',width).attr('height',(height+margin.b+margin.t))
 	.append("g").attr("transform","translate("+ margin.l+","+margin.t+")");
 
-	d3.json("https://data.opentechinstitute.org/api/action/datastore_search?resource_id=2f91e923-9239-4f6a-833b-3d7564cd15f0&data=data")
+	d3.json("https://data.opentechinstitute.org/api/action/datastore_search?resource_id=5e6cb5c8-8e69-4d0b-85c3-8765454e9667&data=data")
 		.header("Authorization", getAuthToken())
 		.get(function(error, data){
 			if (error) return console.warn(error);
@@ -110,7 +110,7 @@ rect{
                 	else { tier2plus == v.tier_ii_plus;}
 
 
-                if(term == "Israel" || term == "United Kingdom" || term == "United States of America"){ 
+                if(term == "Israel" || term == "United Kingdom" || term == "United States"){ 
                     $('table#table1').append('<tr><td>' + 
                     	term + '</td><td>' + 
                     	v.desc + '</td><td>' + 
@@ -151,6 +151,10 @@ rect{
 });
 
 </script>
+
+<div id="map-turf">
+  
+</div>
 
 <div class="row">
   <div class="col-lg-12">

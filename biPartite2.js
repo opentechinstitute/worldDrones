@@ -1,7 +1,7 @@
 !function(){
 	var bP={};	
-	var b=40, bb=200, height=600, buffMargin=1, minHeight=10;
-	var c1=[-130, 40], c2=[-50, 100], c3=[-10, 140]; //Column positions of labels.
+	var b=50, bb=500, height=650, buffMargin=2, minHeight=10;
+	var c1=[-130, 60], c2=[-50, 100], c3=[-10, 140]; //Column positions of labels.
 	/*var colors = d3.scale.ordinal().domain(["North America","Asia","Europe","Middle East","Africa","South America"])
 		.range( //colorbrewer.RdBu[6]);
 			["#3182bd", "#6baed6", "#9ecae1","#c6dbef","#e6550d","#fd8d3c","#fdae6b",
@@ -36,7 +36,7 @@
 		var vis ={};
 		function calculatePosition(a, s, e, b, m){
 			var total=d3.sum(a);
-			var sum=0, neededHeight=1, leftoverHeight= e-s-2*b*a.length;
+			var sum=0, neededHeight=1, leftoverHeight= e-s-0.5*b*a.length;
 			var ret =[];
 			
 			a.forEach(
@@ -44,7 +44,7 @@
 					var v={};
 					v.percent = (total == 0 ? 0 : d/total); 
 					v.value=d;
-					v.height=Math.max(v.percent*(e-s-2*b*a.length), m);
+					v.height=Math.max(v.percent*(e-s-0.5*b*a.length), m);
 					(v.height==m ? leftoverHeight-=m : neededHeight+=v.height );
 					ret.push(v);
 				}

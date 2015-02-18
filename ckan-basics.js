@@ -15,7 +15,7 @@
 
 // the resource id is how ckan identifies what data set we're working with
 // you can get it through the ckan web ui, cpy and paste it.
-function getResourceID() { return '2f91e923-9239-4f6a-833b-3d7564cd15f0'; }
+function getResourceID() { return '5e6cb5c8-8e69-4d0b-85c3-8765454e9667'; }
 
 // the auth token is how you write applications against private data sets
 // it is unique to your ckan user, and you can find it in the web UI
@@ -63,7 +63,7 @@ function firequery(query) {
     // this is a jquery example of setting the value of a form field based on
     // the query param. Remove the "query" in the below line to get the current
     // value of the field
-    $('form#search-form #q').val(query);
+    //$('form#search-form #q').val(query);
     // this is a jquery ajax function. other implementations might look a little
     // bit different than this does.
     var data = buildDefaultDataObj();
@@ -83,31 +83,19 @@ function firequery(query) {
             // at this point you have presumabely made a request, and gotten a result
             // and can start digging through the records.
             var records = data.result.records;
-            var sales_data = [];
             //console.log(records);
             // jquery loop through each of the returned result rows.
             $.each( records, function( k, v ) {
                 // since this example comes from cyberdefinitions, the main field
                 // is Term, so v.Term is just v.FIELDNAME for the value of that fi
-                var term = v.name.replace(/ +$/, "");
-                
-                var imports = v.imports_from;
-                var imp_arr = imports.split(",");
-                //console.log(imp_arr);
+               var term = v.name.replace(/ +$/, "");
+               var lat = v.lat;
+               var lng = v.lon;
 
-                var exports = v.exports_to;
-                var exp_arr = exports.split(",");
-                //console.log(exp_arr);
+               //var latlng = L.latlng(lng, lat);
+               console.log(term + ", " + lat + ", " + lng);
 
-                var nato = v.NATO;
-                if(nato == 1) { imp_arr.push("NATO");}
-
-                var domestic = v.domestic_production;
-                var dom_arr = [];
-                if(domestic == 1) { dom_arr.push(term);}
-                //console.log(dom_arr);
-
-                for(i = 0; i < imp_arr.length; i++){ 
+                /*for(i = 0; i < imp_arr.length; i++){ 
                         var t = [imp_arr[i].trim(), term, "1", "something"];
                         sales_data.push(t);
                             for (j = 0; j < exp_arr.length; j++){
@@ -115,32 +103,10 @@ function firequery(query) {
                                 sales_data.push(t2);
                             }
 
-                }
-                //console.log(sales_data);
+                }*/
 
-                // in this example, we're just appending all term values to the
-                // page using jquery.
-                //$('div#term-heading').append(term + '<br/>');
-                // if you had more fields you can check or make use of their
-                // values here.
-
-
-                if(term == "Israel" || term == "United Kingdom" || term == "United States of America"){ 
-                    $('table#table1').append('<tr><td>' + term + '</td><td>' + v.desc + '</td><td>' + v.tier_i + '</td><td>' + v.tier_ii + '</td><td>' + v.tier_ii_plus +'</td></tr>');
-                }
-
-                else if(term == "China"|| term == "France" || term == "Iran"){ 
-                    $('table#table2').append('<tr><td>' + term + '</td><td>' + v.desc + '</td><td>' + v.tier_i + '</td><td>' + v.tier_ii + '</td><td>' + v.tier_ii_plus +'</td></tr>');
-                }
-
-                else {
-                    $('table#table3').append('<tr><td>' + term + '</td><td>' + v.desc + '</td><td>' + v.tier_i + '</td><td>' + v.tier_ii + '</td><td>' + v.tier_ii_plus +'</td></tr>');
-                }
-
-            });
-
-            return sales_data;
-
+            })
+            return records;
         }
     });
 }

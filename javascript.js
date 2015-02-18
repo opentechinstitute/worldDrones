@@ -4,7 +4,7 @@
 //ckan-basics.js
 var auth = '167349b0-8a09-419f-a0e6-b0ff1b130733';
 
-function getResourceID() { return '2f91e923-9239-4f6a-833b-3d7564cd15f0'; }
+function getResourceID() { return '5e6cb5c8-8e69-4d0b-85c3-8765454e9667'; }
 function getAuthToken() { return auth; }
 function getCkanUrl() { return 'https://data.opentechinstitute.org/api/3/action/datastore_search'; }
 
@@ -42,7 +42,7 @@ function caseMatch(query) {
           query = t;
       }
     });
-    return query
+    return query;
 }
 
 function getParameterByName(name) {
@@ -57,9 +57,9 @@ function getParameterByName(name) {
 
 
 //biPartite2.js
-var bP={};  
-  var b=40, bb=200, height=600, buffMargin=1, minHeight=10;
-  var c1=[-130, 40], c2=[-50, 100], c3=[-10, 140]; //Column positions of labels.
+  var bP={};  
+  var b=50, bb=500, height=650, buffMargin=2, minHeight=10;
+  var c1=[-130, 60], c2=[-50, 100], c3=[-10, 140]; //Column positions of labels.
   /*var colors = d3.scale.ordinal().domain(["North America","Asia","Europe","Middle East","Africa","South America"])
     .range( //colorbrewer.RdBu[6]);
       ["#3182bd", "#6baed6", "#9ecae1","#c6dbef","#e6550d","#fd8d3c","#fdae6b",
@@ -94,7 +94,7 @@ var bP={};
     var vis ={};
     function calculatePosition(a, s, e, b, m){
       var total=d3.sum(a);
-      var sum=0, neededHeight=1, leftoverHeight= e-s-2*b*a.length;
+      var sum=0, neededHeight=1, leftoverHeight= e-s-0.5*b*a.length;
       var ret =[];
       
       a.forEach(
@@ -102,7 +102,7 @@ var bP={};
           var v={};
           v.percent = (total == 0 ? 0 : d/total); 
           v.value=d;
-          v.height=Math.max(v.percent*(e-s-2*b*a.length), m);
+          v.height=Math.max(v.percent*(e-s-0.5*b*a.length), m);
           (v.height==m ? leftoverHeight-=m : neededHeight+=v.height );
           ret.push(v);
         }
@@ -340,141 +340,87 @@ var bP={};
     });   
   }
 
-//1st map
-var w = 870
-var h = 555
-
-var svg = d3.select('#content').append('svg').attr('width', w).attr('height', h);
-
-var projection = d3.geo.mercator().scale(150).translate([w/2, h/2]);
-var path = d3.geo.path().projection(projection);
-
-var quantize = d3.scale.quantize()
-    .domain([0, 1])
-    .range(d3.range(2).map(function(i) { return "tier" + i; }));
-
-var tierById = d3.map();
-
-var csv;
-
-d3.json("/sites/all/themes/bootstrap_subtheme/data/countries.geo.json", function(error, json) {
-
-    d3.csv("/sites/all/themes/bootstrap_subtheme/data/wod.csv", function(error, _csv) {
-
-        csv = _csv
-
-        var world = json.features;
-
-        // var world = topojson.feature(json, json.objects.countries).features;
-
-        _csv.forEach(function(d, i) {
-            world.forEach(function(e, j) {
-                if (d.name === e['properties']['name']) {
-                    e['properties']['desc'] = d.desc;
-                    e['properties']['num'] = d.old_id;
-                }
-            })
-        })
-
-        svg.append("g").selectAll("path")
-            .data(world)
-            .enter()
-            .append("svg:path")
-            .attr("d", path)
-            .attr("class", function(d,i) { return "country" + d['properties']['num']; })
-            .on("mouseover", function(d, i) {
-                reporter(d);
-            });
-
-        states2.selectAll("path")
-            .data(world)
-          .enter().append("svg:path")
-            .attr("d", path)
-            .attr("class", function(d,i) { return "country" + d['properties']['num']; });
-
-        states3.selectAll("path")
-            .data(world)
-          .enter().append("svg:path")
-            .attr("d", path)
-            .attr("class", function(d,i) { return "country" + d['properties']['num'] });
-
-    })
-
-    function reporter(x) {
-        d3.select("#map1 .panel-title").text(function() {
-          if (x['properties']['desc']==null) {
-          } else {
-            return x['properties']['name'];
-          }        
-        });
-        d3.select("#map1 .panel-body").text(function() {
-            return x['properties']['desc'];
-        });
+//helper load js file function
+function loadjscssfile(filename, filetype){
+    if (filetype=="js"){ //if filename is a external JavaScript file
+        var fileref=document.createElement('script')
+        fileref.setAttribute("type","text/javascript")
+        fileref.setAttribute("src", filename)
     }
-
-})
-
-function drawTierI() {
-  csv.forEach(function(d) { console.log(d.tier_i); tierById.set(d.id, +d.tier_i); });
-
-  function ready(error, json, _csv) {
-    svg.selectAll("path")
-        .attr("class", function(d) { return quantize(tierById.get(d.id)); })
-        .attr("d", path)
-  }
-  ready();
+    else if (filetype=="css"){ //if filename is an external CSS file
+        var fileref=document.createElement("link")
+        fileref.setAttribute("rel", "stylesheet")
+        fileref.setAttribute("type", "text/css")
+        fileref.setAttribute("href", filename)
+    }
+    if (typeof fileref!="undefined")
+        document.getElementsByTagName("head")[0].appendChild(fileref)
 }
+ 
+loadjscssfile("https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js", "js");
+loadjscssfile("https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css", "css");
+loadjscssfile("https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js", "js");
 
-function drawTierII() {
-  csv.forEach(function(d) { tierById.set(d.id, +d.tier_ii); });
 
-  function ready(error, json) {
-    svg.selectAll("path")
-        .attr("class", function(d) { return quantize(tierById.get(d.id)); })
-        .attr("d", path);
+//1st map
 
-  }
-  ready();
-}
+L.mapbox.accessToken = 'pk.eyJ1IjoibmV3YW1lcmljYSIsImEiOiIyM3ZnYUtrIn0.57fFgg_iM7S1wLH2GQC71g';
+var map = L.mapbox.map('#content', 'newamerica.l89jcfpc');
 
-function drawTierIIPlus() {
-  csv.forEach(function(d) { tierById.set(d.id, +d.tier_ii_plus); });
+  function onEachFeature(feature, layer) {
 
-  function ready(error, json) {
-    svg.selectAll("path")
-        .attr("class", function(d) { return quantize(tierById.get(d.id)); })
-        .attr("d", path);
+    var popupContent = "";
+    if (feature.properties) {
+      popupContent += "<span style=\"color:#000;\" ><strong>Name:</strong> " + feature.properties.NAME + 
+      "<br/><strong>Description:</strong> " + feature.properties.woddata2122_desc;
 
-  }
-  ready();
-}
+    }
+    layer.bindPopup(popupContent);
+  }   
+  
+  $.getJSON("/sites/all/themes/bootstrap_subtheme/js/data_join_country.geojson", function(data){
 
-$('button#tier_i').click(function (e) {
-  drawTierI();
-});
+  L.control.layers({
+    'Tier i': L.geoJson(data, {
+        onEachFeature: onEachFeature,
+        filter:function (feature, layer) {
+          if(feature.properties.woddata2122_tier_i){
+            return feature.properties.woddata2122_tier_i == 1;
+          }
+          return false;
+        }
+  }).addTo(map),
+    'Tier ii': L.geoJson(data, {
+        onEachFeature: onEachFeature,
+        filter:function (feature, layer) {
+          if(feature.properties.woddata2122_tier_ii){
+            return feature.properties.woddata2122_tier_ii == 1;
+          }
+          return false;
+        }
+  }),
+    'Tier ii Plus': L.geoJson(data, {
+        onEachFeature: onEachFeature,
+        filter:function (feature, layer) {
+          if(feature.properties.woddata2122_tier_ii_plus){
+            return feature.properties.woddata2122_tier_ii_plus == 1;
+          }
+          return false;
+        }
+  })
+},null,{collapsed:false}).addTo(map);
 
-$('button#tier_ii').click(function (e) {
-  drawTierII();
-});
-
-$('button#tier_ii_plus').click(function (e) {
-  drawTierIIPlus();
-});
-
-// think I can remove, but decide later
-d3.select("input[type=checkbox]").on("change", function() {
-  cells2.classed("voronoi", this.checked);
 });
 
 //new for parallel chart
   var sales_data = [];
-  var width = 1100, height = 900, margin ={b:0, t:40, l:170, r:50};
+  var width = 1100, height = 1200, margin ={b:0, t:40, l:170, r:50};
 
-  var svg = d3.select("body")
+  var svg2 = d3.select("#content2")
   .append("svg").attr('width',width).attr('height',(height+margin.b+margin.t))
   .append("g").attr("transform","translate("+ margin.l+","+margin.t+")");
 
-  d3.json("https://data.opentechinstitute.org/api/action/datastore_search?resource_id=2f91e923-9239-4f6a-833b-3d7564cd15f0&data=data")
+  d3.json("https://data.opentechinstitute.org/api/action/datastore_search?resource_id=5e6cb5c8-8e69-4d0b-85c3-8765454e9667&data=data")
     .header("Authorization", getAuthToken())
     .get(function(error, data){
       if (error) return console.warn(error);
@@ -526,7 +472,7 @@ d3.select("input[type=checkbox]").on("change", function() {
                   else { tier2plus == v.tier_ii_plus;}
 
 
-                if(term == "Israel" || term == "United Kingdom" || term == "United States of America"){ 
+                if(term == "Israel" || term == "United Kingdom" || term == "United States"){ 
                     $('table#table1').append('<tr><td>' + 
                       term + '</td><td>' + 
                       v.desc + '</td><td>' + 
@@ -559,8 +505,9 @@ d3.select("input[type=checkbox]").on("change", function() {
     {data:bP.partData(sales_data,2), id:'SalesAttempts', header:["From","To", "Export/Import", "Continent"]},
   ];
 
-  bP.draw(data, svg);
+  bP.draw(data, svg2);
 
 
+});
 });
 }(jQuery));
