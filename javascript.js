@@ -340,136 +340,76 @@ function getParameterByName(name) {
     });   
   }
 
-//1st map
-var w = 870;
-var h = 555;
-
-var svg = d3.select('#content').append('svg').attr('width', w).attr('height', h);
-
-var projection = d3.geo.mercator().scale(150).translate([w/2, h/2]);
-var path = d3.geo.path().projection(projection);
-
-var quantize = d3.scale.quantize()
-    .domain([0, 1])
-    .range(d3.range(2).map(function(i) { return "tier" + i; }));
-
-var tierById = d3.map();
-
-var csv;
-
-d3.json("/sites/all/themes/bootstrap_subtheme/data/countries.geo.json", function(error, json) {
-
-    d3.csv("/sites/all/themes/bootstrap_subtheme/data/woddata2122.csv", function(error, _csv) {
-
-        csv = _csv
-
-        var world = json.features;
-
-        // var world = topojson.feature(json, json.objects.countries).features;
-
-        _csv.forEach(function(d, i) {
-            world.forEach(function(e, j) {
-                if (d.name === e['properties']['name']) {
-                    e['properties']['desc'] = d.desc;
-                    e['properties']['num'] = d.old_id;
-                }
-            })
-        })
-
-        svg.append("g").selectAll("path")
-            .data(world)
-            .enter()
-            .append("svg:path")
-            .attr("d", path)
-            .attr("class", function(d,i) { return "country" + d['properties']['num']; })
-            .attr("fill", "grey")
-            .on("mouseover", function(d, i) {
-                reporter(d);
-            });
-
-        states2.selectAll("path")
-            .data(world)
-          .enter().append("svg:path")
-            .attr("d", path)
-            .attr("class", function(d,i) { return "country" + d['properties']['num']; })
-            .attr("fill", "grey");
-
-        states3.selectAll("path")
-            .data(world)
-          .enter().append("svg:path")
-            .attr("d", path)
-            .attr("class", function(d,i) { return "country" + d['properties']['num'] })
-            .attr("fill", "grey");
-
-    })
-
-    function reporter(x) {
-        d3.select("#map1 .panel-title").text(function() {
-          if (x['properties']['desc']==null) {
-          } else {
-            return x['properties']['name'];
-          }        
-        });
-        d3.select("#map1 .panel-body").text(function() {
-            return x['properties']['desc'];
-        });
+//helper load js file function
+function loadjscssfile(filename, filetype){
+    if (filetype=="js"){ //if filename is a external JavaScript file
+        var fileref=document.createElement('script')
+        fileref.setAttribute("type","text/javascript")
+        fileref.setAttribute("src", filename)
     }
-
-})
-
-function drawTierI() {
-  csv.forEach(function(d) { console.log(d.tier_i); tierById.set(d.id, +d.tier_i); });
-
-  function ready(error, json, _csv) {
-    svg.selectAll("path")
-        .attr("class", function(d) { return quantize(tierById.get(d.id)); })
-        .attr("fill", "green")
-        .attr("d", path)
-  }
-  ready();
+    else if (filetype=="css"){ //if filename is an external CSS file
+        var fileref=document.createElement("link")
+        fileref.setAttribute("rel", "stylesheet")
+        fileref.setAttribute("type", "text/css")
+        fileref.setAttribute("href", filename)
+    }
+    if (typeof fileref!="undefined")
+        document.getElementsByTagName("head")[0].appendChild(fileref)
 }
+ 
+loadjscssfile("https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js", "js");
+loadjscssfile("https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css", "css");
+loadjscssfile("https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js", "js");
 
-function drawTierII() {
-  csv.forEach(function(d) { tierById.set(d.id, +d.tier_ii); });
 
-  function ready(error, json) {
-    svg.selectAll("path")
-        .attr("class", function(d) { return quantize(tierById.get(d.id)); })
-        .attr("fill", "blue")
-        .attr("d", path);
+//1st map
 
-  }
-  ready();
-}
+L.mapbox.accessToken = 'pk.eyJ1IjoibmV3YW1lcmljYSIsImEiOiIyM3ZnYUtrIn0.57fFgg_iM7S1wLH2GQC71g';
+var map = L.mapbox.map('#content', 'newamerica.l89jcfpc');
 
-function drawTierIIPlus() {
-  csv.forEach(function(d) { tierById.set(d.id, +d.tier_ii_plus); });
+  function onEachFeature(feature, layer) {
 
-  function ready(error, json) {
-    svg.selectAll("path")
-        .attr("class", function(d) { return quantize(tierById.get(d.id)); })
-        .attr("fill", "red")
-        .attr("d", path);
+    var popupContent = "";
+    if (feature.properties) {
+      popupContent += "<span style=\"color:#000;\" ><strong>Name:</strong> " + feature.properties.NAME + 
+      "<br/><strong>Description:</strong> " + feature.properties.woddata2122_desc;
 
-  }
-  ready();
-}
+    }
+    layer.bindPopup(popupContent);
+  }   
+  
+  $.getJSON("/sites/all/themes/bootstrap_subtheme/js/data_join_country.geojson", function(data){
 
-$('button#tier_i').click(function (e) {
-  drawTierI();
-});
+  L.control.layers({
+    'Tier i': L.geoJson(data, {
+        onEachFeature: onEachFeature,
+        filter:function (feature, layer) {
+          if(feature.properties.woddata2122_tier_i){
+            return feature.properties.woddata2122_tier_i == 1;
+          }
+          return false;
+        }
+  }).addTo(map),
+    'Tier ii': L.geoJson(data, {
+        onEachFeature: onEachFeature,
+        filter:function (feature, layer) {
+          if(feature.properties.woddata2122_tier_ii){
+            return feature.properties.woddata2122_tier_ii == 1;
+          }
+          return false;
+        }
+  }),
+    'Tier ii Plus': L.geoJson(data, {
+        onEachFeature: onEachFeature,
+        filter:function (feature, layer) {
+          if(feature.properties.woddata2122_tier_ii_plus){
+            return feature.properties.woddata2122_tier_ii_plus == 1;
+          }
+          return false;
+        }
+  })
+},null,{collapsed:false}).addTo(map);
 
-$('button#tier_ii').click(function (e) {
-  drawTierII();
-});
-
-$('button#tier_ii_plus').click(function (e) {
-  drawTierIIPlus();
-});
-
-// think I can remove, but decide later
-d3.select("input[type=checkbox]").on("change", function() {
-  cells2.classed("voronoi", this.checked);
 });
 
 //new for parallel chart

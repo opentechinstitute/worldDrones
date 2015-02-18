@@ -6,6 +6,7 @@
 <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js'></script>
 <script src='data_join_country.geojson'></script>
+<script src="jquery-2.1.1.min.js"></script>
 <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css' rel='stylesheet' />
 <style>
   body { margin:0; padding:0; }
@@ -31,6 +32,7 @@ var map = L.mapbox.map('map', 'newamerica.l89jcfpc');
 		layer.bindPopup(popupContent);
 	} 	
 	
+	// $.getJSON("data_join_country.geojson", function(data){
 
 	L.control.layers({
     'Tier i': L.geoJson(data, {
@@ -60,7 +62,8 @@ var map = L.mapbox.map('map', 'newamerica.l89jcfpc');
     			return false;
     		}
 	})
-},null,{collapsed:false}).addTo(map);
+	},null,{collapsed:false}).addTo(map);
+//});
 
 </script>
 

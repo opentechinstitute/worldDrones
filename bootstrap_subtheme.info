@@ -48,6 +48,8 @@ scripts[] = js/leaflet/dist/leaflet.js
 scripts[] = js/underscore.js
 scripts[] = js/circle_packer_movers.js
 scripts[] = js/javascript.js
+scripts[] = js/jquery-1.11.2.min.js
+scripts[] = js/mapbox.js
 scripts[] = js/biPartite2.js
 ;scripts[] = js/leaflet.SliderControl.min.js
 
