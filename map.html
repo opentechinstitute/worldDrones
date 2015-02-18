@@ -36,7 +36,7 @@ var map = L.mapbox.map('map', 'newamerica.l89jcfpc');
 
 
 	L.control.layers({
-    'Has drones': L.geoJson(data, {
+    'Tier i': L.geoJson(data, {
     		onEachFeature: onEachFeature,
     		filter:function (feature, layer) {
     			if(feature.properties.woddata2122_tier_i){
@@ -45,7 +45,7 @@ var map = L.mapbox.map('map', 'newamerica.l89jcfpc');
     			return false;
     		}
 	}).addTo(map),
-    'Has armed drones': L.geoJson(data, {
+    'Tier ii': L.geoJson(data, {
     		onEachFeature: onEachFeature,
     		filter:function (feature, layer) {
     			if(feature.properties.woddata2122_tier_ii){
@@ -54,7 +54,7 @@ var map = L.mapbox.map('map', 'newamerica.l89jcfpc');
     			return false;
     		}
 	}),
-    'Used drones in combat': L.geoJson(data, {
+    'Tier ii Plus': L.geoJson(data, {
     		onEachFeature: onEachFeature,
     		filter:function (feature, layer) {
     			if(feature.properties.woddata2122_tier_ii_plus){
@@ -62,7 +62,34 @@ var map = L.mapbox.map('map', 'newamerica.l89jcfpc');
     			}
     			return false;
     		}
-	})
+	}),
+    'Has Drones': L.geoJson(data, {
+            onEachFeature: onEachFeature,
+            filter:function (feature, layer) {
+                if(feature.properties.NAME){
+                    return feature.properties.NAME == "Israel" || feature.properties.NAME == "United Kingdom" || feature.properties.NAME == "United States";
+                }
+                return false;
+            }
+    }),
+    'Has armed drones': L.geoJson(data, {
+            onEachFeature: onEachFeature,
+            filter:function (feature, layer) {
+                if(feature.properties.NAME){
+                    return feature.properties.NAME == "China"|| feature.properties.NAME == "France" || feature.properties.NAME == "Iran";
+                }
+                return false;
+            }
+    }),
+    'Used drones in combat': L.geoJson(data, {
+            onEachFeature: onEachFeature,
+            filter:function (feature, layer) {
+                if(feature.properties.NAME){
+                    return feature.properties.NAME !== "Israel" || feature.properties.NAME !== "United Kingdom" || feature.properties.NAME !== "United States" || feature.properties.NAME !== "China"|| feature.properties.NAME !== "France" || feature.properties.NAME !== "Iran";
+                }
+                return false;
+            }
+    })
 	},null,{collapsed:false}).addTo(map);
 //});
 
