@@ -4,7 +4,7 @@
 //ckan-basics.js
 var auth = '167349b0-8a09-419f-a0e6-b0ff1b130733';
 
-function getResourceID() { return '2f91e923-9239-4f6a-833b-3d7564cd15f0'; }
+function getResourceID() { return '5e6cb5c8-8e69-4d0b-85c3-8765454e9667'; }
 function getAuthToken() { return auth; }
 function getCkanUrl() { return 'https://data.opentechinstitute.org/api/3/action/datastore_search'; }
 
@@ -42,7 +42,7 @@ function caseMatch(query) {
           query = t;
       }
     });
-    return query
+    return query;
 }
 
 function getParameterByName(name) {
@@ -57,9 +57,9 @@ function getParameterByName(name) {
 
 
 //biPartite2.js
-var bP={};  
-  var b=40, bb=200, height=600, buffMargin=1, minHeight=10;
-  var c1=[-130, 40], c2=[-50, 100], c3=[-10, 140]; //Column positions of labels.
+  var bP={};  
+  var b=50, bb=500, height=650, buffMargin=2, minHeight=10;
+  var c1=[-130, 60], c2=[-50, 100], c3=[-10, 140]; //Column positions of labels.
   /*var colors = d3.scale.ordinal().domain(["North America","Asia","Europe","Middle East","Africa","South America"])
     .range( //colorbrewer.RdBu[6]);
       ["#3182bd", "#6baed6", "#9ecae1","#c6dbef","#e6550d","#fd8d3c","#fdae6b",
@@ -94,7 +94,7 @@ var bP={};
     var vis ={};
     function calculatePosition(a, s, e, b, m){
       var total=d3.sum(a);
-      var sum=0, neededHeight=1, leftoverHeight= e-s-2*b*a.length;
+      var sum=0, neededHeight=1, leftoverHeight= e-s-0.5*b*a.length;
       var ret =[];
       
       a.forEach(
@@ -102,7 +102,7 @@ var bP={};
           var v={};
           v.percent = (total == 0 ? 0 : d/total); 
           v.value=d;
-          v.height=Math.max(v.percent*(e-s-2*b*a.length), m);
+          v.height=Math.max(v.percent*(e-s-0.5*b*a.length), m);
           (v.height==m ? leftoverHeight-=m : neededHeight+=v.height );
           ret.push(v);
         }
@@ -341,8 +341,8 @@ var bP={};
   }
 
 //1st map
-var w = 870
-var h = 555
+var w = 870;
+var h = 555;
 
 var svg = d3.select('#content').append('svg').attr('width', w).attr('height', h);
 
@@ -468,13 +468,13 @@ d3.select("input[type=checkbox]").on("change", function() {
 
 //new for parallel chart
   var sales_data = [];
-  var width = 1100, height = 900, margin ={b:0, t:40, l:170, r:50};
+  var width = 1100, height = 1200, margin ={b:0, t:40, l:170, r:50};
 
-  var svg = d3.select("body")
+  var svg2 = d3.select("#content2")
   .append("svg").attr('width',width).attr('height',(height+margin.b+margin.t))
   .append("g").attr("transform","translate("+ margin.l+","+margin.t+")");
 
-  d3.json("https://data.opentechinstitute.org/api/action/datastore_search?resource_id=2f91e923-9239-4f6a-833b-3d7564cd15f0&data=data")
+  d3.json("https://data.opentechinstitute.org/api/action/datastore_search?resource_id=5e6cb5c8-8e69-4d0b-85c3-8765454e9667&data=data")
     .header("Authorization", getAuthToken())
     .get(function(error, data){
       if (error) return console.warn(error);
@@ -526,7 +526,7 @@ d3.select("input[type=checkbox]").on("change", function() {
                   else { tier2plus == v.tier_ii_plus;}
 
 
-                if(term == "Israel" || term == "United Kingdom" || term == "United States of America"){ 
+                if(term == "Israel" || term == "United Kingdom" || term == "United States"){ 
                     $('table#table1').append('<tr><td>' + 
                       term + '</td><td>' + 
                       v.desc + '</td><td>' + 
@@ -559,8 +559,9 @@ d3.select("input[type=checkbox]").on("change", function() {
     {data:bP.partData(sales_data,2), id:'SalesAttempts', header:["From","To", "Export/Import", "Continent"]},
   ];
 
-  bP.draw(data, svg);
+  bP.draw(data, svg2);
 
 
+});
 });
 }(jQuery));
