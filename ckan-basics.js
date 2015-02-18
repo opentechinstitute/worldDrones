@@ -83,30 +83,19 @@ function firequery(query) {
             // at this point you have presumabely made a request, and gotten a result
             // and can start digging through the records.
             var records = data.result.records;
-            console.log(records);
+            //console.log(records);
             // jquery loop through each of the returned result rows.
             $.each( records, function( k, v ) {
                 // since this example comes from cyberdefinitions, the main field
                 // is Term, so v.Term is just v.FIELDNAME for the value of that fi
-               /* var term = v.name.replace(/ +$/, "");
-                
-                var imports = v.imports_from;
-                var imp_arr = imports.split(",");
-                //console.log(imp_arr);
+               var term = v.name.replace(/ +$/, "");
+               var lat = v.lat;
+               var lng = v.lon;
 
-                var exports = v.exports_to;
-                var exp_arr = exports.split(",");
-                //console.log(exp_arr);
+               //var latlng = L.latlng(lng, lat);
+               console.log(term + ", " + lat + ", " + lng);
 
-                var nato = v.NATO;
-                if(nato == 1) { imp_arr.push("NATO");}
-
-                var domestic = v.domestic_production;
-                var dom_arr = [];
-                if(domestic == 1) { dom_arr.push(term);}
-                //console.log(dom_arr);
-
-                for(i = 0; i < imp_arr.length; i++){ 
+                /*for(i = 0; i < imp_arr.length; i++){ 
                         var t = [imp_arr[i].trim(), term, "1", "something"];
                         sales_data.push(t);
                             for (j = 0; j < exp_arr.length; j++){

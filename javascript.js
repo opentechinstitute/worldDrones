@@ -359,7 +359,7 @@ var csv;
 
 d3.json("/sites/all/themes/bootstrap_subtheme/data/countries.geo.json", function(error, json) {
 
-    d3.csv("/sites/all/themes/bootstrap_subtheme/data/wod.csv", function(error, _csv) {
+    d3.csv("/sites/all/themes/bootstrap_subtheme/data/woddata2122.csv", function(error, _csv) {
 
         csv = _csv
 
@@ -382,6 +382,7 @@ d3.json("/sites/all/themes/bootstrap_subtheme/data/countries.geo.json", function
             .append("svg:path")
             .attr("d", path)
             .attr("class", function(d,i) { return "country" + d['properties']['num']; })
+            .attr("fill", "grey")
             .on("mouseover", function(d, i) {
                 reporter(d);
             });
@@ -390,13 +391,15 @@ d3.json("/sites/all/themes/bootstrap_subtheme/data/countries.geo.json", function
             .data(world)
           .enter().append("svg:path")
             .attr("d", path)
-            .attr("class", function(d,i) { return "country" + d['properties']['num']; });
+            .attr("class", function(d,i) { return "country" + d['properties']['num']; })
+            .attr("fill", "grey");
 
         states3.selectAll("path")
             .data(world)
           .enter().append("svg:path")
             .attr("d", path)
-            .attr("class", function(d,i) { return "country" + d['properties']['num'] });
+            .attr("class", function(d,i) { return "country" + d['properties']['num'] })
+            .attr("fill", "grey");
 
     })
 
@@ -420,6 +423,7 @@ function drawTierI() {
   function ready(error, json, _csv) {
     svg.selectAll("path")
         .attr("class", function(d) { return quantize(tierById.get(d.id)); })
+        .attr("fill", "green")
         .attr("d", path)
   }
   ready();
@@ -431,6 +435,7 @@ function drawTierII() {
   function ready(error, json) {
     svg.selectAll("path")
         .attr("class", function(d) { return quantize(tierById.get(d.id)); })
+        .attr("fill", "blue")
         .attr("d", path);
 
   }
@@ -443,6 +448,7 @@ function drawTierIIPlus() {
   function ready(error, json) {
     svg.selectAll("path")
         .attr("class", function(d) { return quantize(tierById.get(d.id)); })
+        .attr("fill", "red")
         .attr("d", path);
 
   }

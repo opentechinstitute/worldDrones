@@ -5,12 +5,8 @@
 <title>WoD</title>
 <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js'></script>
-<script src='countries.geojson'></script>
-<script src="jquery-2.1.1.min.js"></script>
-<script src="ckan-basics.js"></script>
-<script src="auth.js"></script>
+<script src='data_join_country.geojson'></script>
 <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css' rel='stylesheet' />
-
 <style>
   body { margin:0; padding:0; }
   #map { position:absolute; top:0; bottom:0; width:100%; }
@@ -18,53 +14,54 @@
 </head>
 <body>
 
-
-<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v1.4.0/turf.min.js'></script>
 <div id='map'></div>
 <script>
-
-var data = firequery();
-//console.log(data);
 
 L.mapbox.accessToken = 'pk.eyJ1IjoibmV3YW1lcmljYSIsImEiOiIyM3ZnYUtrIn0.57fFgg_iM7S1wLH2GQC71g';
 var map = L.mapbox.map('map', 'newamerica.l89jcfpc');
 
-//what to do with each feature
-	function onEachFeature(data, feature, layer) {
-		for(i = 0; i < data.length; i++){
-			if(data[i].name == feature.properties.name){
-				console.log("true");
-			}
-		}
+	function onEachFeature(feature, layer) {
 
 		var popupContent = "";
 		if (feature.properties) {
-			popupContent += "<span style=\"color:#000;\" ><strong>Name:</strong> " + feature.properties.name + 
-			"<br/><strong>Source:</strong> " + feature.properties.source;
+			popupContent += "<span style=\"color:#000;\" ><strong>Name:</strong> " + feature.properties.NAME + 
+			"<br/><strong>Description:</strong> " + feature.properties.woddata2122_desc;
 
 		}
 		layer.bindPopup(popupContent);
-	} 
+	} 	
+	
 
+	L.control.layers({
+    'Tier i': L.geoJson(data, {
+    		onEachFeature: onEachFeature,
+    		filter:function (feature, layer) {
+    			if(feature.properties.woddata2122_tier_i){
+    				return feature.properties.woddata2122_tier_i == 1;
+    			}
+    			return false;
+    		}
+	}).addTo(map),
+    'Tier ii': L.geoJson(data, {
+    		onEachFeature: onEachFeature,
+    		filter:function (feature, layer) {
+    			if(feature.properties.woddata2122_tier_ii){
+    				return feature.properties.woddata2122_tier_ii == 1;
+    			}
+    			return false;
+    		}
+	}),
+    'Tier ii Plus': L.geoJson(data, {
+    		onEachFeature: onEachFeature,
+    		filter:function (feature, layer) {
+    			if(feature.properties.woddata2122_tier_ii_plus){
+    				return feature.properties.woddata2122_tier_ii_plus == 1;
+    			}
+    			return false;
+    		}
+	})
+},null,{collapsed:false}).addTo(map);
 
-	//map.featureLayer.on('ready', function() {
-    	//var hull = turf.concave(map.featureLayer.getGeoJSON(), 3);
-    	//L.mapbox.featureLayer(hull).addTo(map);
-	//});
-
-	L.geoJson(countries, {
-    	onEachFeature: onEachFeature,
-	}).addTo(map);
-
-	//map.on('click', onClick);
-
- /*   L.control.layers({
-    'Base Map': L.mapbox.tileLayer('examples.map-i87786ca').addTo(map),
-    'Grey Map': L.mapbox.tileLayer('examples.map-20v6611k')
-	}, {
-     'Bike Stations': L.mapbox.tileLayer('examples.bike-locations'),
-     'Bike Lanes': L.mapbox.tileLayer('examples.bike-lanes')
-	}).addTo(map);*/
 </script>
 
 
