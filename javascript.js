@@ -356,61 +356,6 @@ function loadjscssfile(filename, filetype){
     if (typeof fileref!="undefined")
         document.getElementsByTagName("head")[0].appendChild(fileref)
 }
- 
-loadjscssfile("https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js", "js");
-loadjscssfile("https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css", "css");
-loadjscssfile("https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js", "js");
-
-
-//1st map
-
-L.mapbox.accessToken = 'pk.eyJ1IjoibmV3YW1lcmljYSIsImEiOiIyM3ZnYUtrIn0.57fFgg_iM7S1wLH2GQC71g';
-var map = L.mapbox.map('#content', 'newamerica.l89jcfpc');
-
-  function onEachFeature(feature, layer) {
-
-    var popupContent = "";
-    if (feature.properties) {
-      popupContent += "<span style=\"color:#000;\" ><strong>Name:</strong> " + feature.properties.NAME + 
-      "<br/><strong>Description:</strong> " + feature.properties.woddata2122_desc;
-
-    }
-    layer.bindPopup(popupContent);
-  }   
-  
-  $.getJSON("/sites/all/themes/bootstrap_subtheme/js/data_join_country.geojson", function(data){
-
-  L.control.layers({
-    'Tier i': L.geoJson(data, {
-        onEachFeature: onEachFeature,
-        filter:function (feature, layer) {
-          if(feature.properties.woddata2122_tier_i){
-            return feature.properties.woddata2122_tier_i == 1;
-          }
-          return false;
-        }
-  }).addTo(map),
-    'Tier ii': L.geoJson(data, {
-        onEachFeature: onEachFeature,
-        filter:function (feature, layer) {
-          if(feature.properties.woddata2122_tier_ii){
-            return feature.properties.woddata2122_tier_ii == 1;
-          }
-          return false;
-        }
-  }),
-    'Tier ii Plus': L.geoJson(data, {
-        onEachFeature: onEachFeature,
-        filter:function (feature, layer) {
-          if(feature.properties.woddata2122_tier_ii_plus){
-            return feature.properties.woddata2122_tier_ii_plus == 1;
-          }
-          return false;
-        }
-  })
-},null,{collapsed:false}).addTo(map);
-
-});
 
 //new for parallel chart
   var sales_data = [];
