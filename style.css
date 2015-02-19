@@ -1168,6 +1168,7 @@ body.page-node-26026 path.tier1 { fill: #FF0000; fill-opacity: .4; }
 #content2 {
   background: #f9f9f2;
   overflow: hidden;
+  display: inline-block;
 }
 
 #countries path {

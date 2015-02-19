@@ -359,10 +359,10 @@ function loadjscssfile(filename, filetype){
 
 //new for parallel chart
   var sales_data = [];
-  var width = 1100, height = 1200, margin ={b:0, t:40, l:170, r:50};
+  var width = 900, height = 1000, margin ={b:0, t:40, l:170, r:50};
 
-  var svg2 = d3.select("#svg")
-  .attr('width',width).attr('height',(height+margin.b+margin.t))
+  var svg2 = d3.select("#content2")
+  .append("svg").attr('width',width).attr('height',(height+margin.b+margin.t))
   .append("g").attr("transform","translate("+ margin.l+","+margin.t+")");
 
   d3.json("https://data.opentechinstitute.org/api/action/datastore_search?resource_id=5e6cb5c8-8e69-4d0b-85c3-8765454e9667&data=data")
@@ -447,7 +447,7 @@ function loadjscssfile(filename, filetype){
             });
 
   var data = [ 
-    {data:bP.partData(sales_data,2), id:'SalesAttempts', header:["From","To", "Export/Import", "Continent"]},
+    {data:bP.partData(sales_data,2), id:'SalesAttempts', header:["From","To", "", ""]},
   ];
 
   bP.draw(data, svg2);

@@ -36,6 +36,34 @@ var map = L.mapbox.map('map', 'newamerica.l89jcfpc');
 
 
 	L.control.layers({
+    'Used drones in combat': L.geoJson(data, {
+            onEachFeature: onEachFeature,
+            filter:function (feature, layer) {
+                if(feature.properties.woddata2122_tier_ii_plus){
+                    return feature.properties.NAME == "Israel" || feature.properties.NAME == "United Kingdom" || feature.properties.NAME == "United States";
+                }
+                return false;
+            }
+    }),
+    'Has armed drones': L.geoJson(data, {
+            onEachFeature: onEachFeature,
+            filter:function (feature, layer) {
+                if(feature.properties.woddata2122_tier_ii_plus){
+                    return feature.properties.NAME == "China"|| feature.properties.NAME == "France" || feature.properties.NAME == "Iran" || 
+                    feature.properties.NAME == "Israel" || feature.properties.NAME == "United Kingdom" || feature.properties.NAME == "United States";
+                }
+                return false;
+            }
+    }),
+    'Has Drones': L.geoJson(data, {
+            onEachFeature: onEachFeature,
+            filter:function (feature, layer) {
+                if(feature.properties.woddata2122_tier_ii_plus){
+                    return feature.properties.NAME !== "Israel" || feature.properties.NAME !== "United Kingdom" || feature.properties.NAME !== "United States" || feature.properties.NAME !== "China"|| feature.properties.NAME !== "France" || feature.properties.NAME !== "Iran";
+                }
+                return false;
+            }
+    }),
     'Tier i': L.geoJson(data, {
     		onEachFeature: onEachFeature,
     		filter:function (feature, layer) {
@@ -62,34 +90,7 @@ var map = L.mapbox.map('map', 'newamerica.l89jcfpc');
     			}
     			return false;
     		}
-	}),
-    'Used drones in combat': L.geoJson(data, {
-            onEachFeature: onEachFeature,
-            filter:function (feature, layer) {
-                if(feature.properties.woddata2122_tier_ii_plus){
-                    return feature.properties.NAME == "Israel" || feature.properties.NAME == "United Kingdom" || feature.properties.NAME == "United States";
-                }
-                return false;
-            }
-    }),
-    'Has armed drones': L.geoJson(data, {
-            onEachFeature: onEachFeature,
-            filter:function (feature, layer) {
-                if(feature.properties.woddata2122_tier_ii_plus){
-                    return feature.properties.NAME == "China"|| feature.properties.NAME == "France" || feature.properties.NAME == "Iran";
-                }
-                return false;
-            }
-    }),
-    'Has Drones': L.geoJson(data, {
-            onEachFeature: onEachFeature,
-            filter:function (feature, layer) {
-                if(feature.properties.woddata2122_tier_ii_plus){
-                    return feature.properties.NAME !== "Israel" || feature.properties.NAME !== "United Kingdom" || feature.properties.NAME !== "United States" || feature.properties.NAME !== "China"|| feature.properties.NAME !== "France" || feature.properties.NAME !== "Iran";
-                }
-                return false;
-            }
-    })
+	})
 	},null,{collapsed:false}).addTo(map);
 //});
 
