@@ -63,7 +63,8 @@ var map = L.mapbox.map('map', 'newamerica.l89jcfpc');
                 }
                 return false;
             }
-    }),
+    })},
+    {
     'Tier i': L.geoJson(data, {
     		onEachFeature: onEachFeature,
     		filter:function (feature, layer) {
