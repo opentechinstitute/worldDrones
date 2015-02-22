@@ -1178,6 +1178,12 @@ body.page-node-26026 path.tier1 { fill: #FF0000; fill-opacity: .4; }
   fill-opacity: 1;
 }
 
+svg:not(:root) {
+  overflow: visible;
+  position: relative;
+  font-size: 10pt;
+}
+
 body.page-node-26026 path.arc {
   pointer-events: none;
   fill: none;

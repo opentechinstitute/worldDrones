@@ -58,7 +58,7 @@ function getParameterByName(name) {
 
 //biPartite2.js
   var bP={};  
-  var b=50, bb=500, height=650, buffMargin=2, minHeight=10;
+  var b=50, bb=500, height=500, buffMargin=1, minHeight=20;
   var c1=[-130, 60], c2=[-50, 100], c3=[-10, 140]; //Column positions of labels.
   /*var colors = d3.scale.ordinal().domain(["North America","Asia","Europe","Middle East","Africa","South America"])
     .range( //colorbrewer.RdBu[6]);
@@ -115,7 +115,7 @@ function getParameterByName(name) {
           d.percent = scaleFact*d.percent; 
           d.height=(d.height==m? m : d.height*scaleFact);
           d.middle=sum+b+d.height/2;
-          d.y=s + d.middle - d.percent*(e-s-2*b*a.length)/2;
+          d.y=s + d.middle - d.percent*(e-s-0.5*b*a.length)/2;
           d.h= d.percent*(e-s-2*b*a.length);
           d.percent = (total == 0 ? 0 : d.value/total);
           sum+=2*b+d.height;
@@ -359,7 +359,7 @@ function loadjscssfile(filename, filetype){
 
 //new for parallel chart
   var sales_data = [];
-  var width = 900, height = 1000, margin ={b:0, t:40, l:170, r:50};
+  var width = 1000, height = 800, margin ={b:150, t:20, l:170, r:0};
 
   var svg2 = d3.select("#content2")
   .append("svg").attr('width',width).attr('height',(height+margin.b+margin.t))
@@ -380,6 +380,19 @@ function loadjscssfile(filename, filetype){
 
                 var exports = v.exports_to;
                 var exp_arr = exports.split(",");
+
+                var unsub_imp = v.Unsubstantiated_Imports;
+                var unsub_imp_arr = unsub_imp.split(",");
+                for(i=0;i<unsub_imp_arr.length;i++){
+                  if(unsub_imp_arr[i]) {imp_arr.push(unsub_imp_arr[i] + " (*)")}
+                }
+
+                var unsub_exp = v.Unsubstantiated_Exports;
+                var unsub_exp_arr = unsub_exp.split(",");
+
+                for(i=0;i<unsub_exp_arr.length;i++){
+                  if(unsub_exp_arr[i]) {exp_arr.push(unsub_exp_arr[i] + " (*)")}
+                }
 
                 var nato = v.NATO;
                 if(nato == 1) { imp_arr.push("NATO");}
@@ -417,7 +430,12 @@ function loadjscssfile(filename, filetype){
                   else { tier2plus == v.tier_ii_plus;}
 
 
-                if(term == "Israel" || term == "United Kingdom" || term == "United States"){ 
+                var domestic_production = v.domestic_production;
+                var used_armed_drones_in_combat = v.used_armed_drones_in_combat;
+                var have_armed_drones = v.have_armed_drones;
+                var developing_armed_drones = v.developing_armed_drones;
+
+                if(used_armed_drones_in_combat == 1){ 
                     $('table#table1').append('<tr><td>' + 
                       term + '</td><td>' + 
                       v.desc + '</td><td>' + 
@@ -426,7 +444,7 @@ function loadjscssfile(filename, filetype){
                       tier2plus +'</td></tr>');
                 }
 
-                else if(term == "China"|| term == "France" || term == "Iran"){ 
+                else if(have_armed_drones ==1){ 
                     $('table#table2').append('<tr><td>' + 
                       term + '</td><td>' + 
                       v.desc + '</td><td>' + 
@@ -435,8 +453,16 @@ function loadjscssfile(filename, filetype){
                       tier2plus +'</td></tr>');
                 }
 
-                else {
+                else if(developing_armed_drones == 1) {
                     $('table#table3').append('<tr><td>' + 
+                      term + '</td><td>' + 
+                      v.desc + '</td><td>' + 
+                      tier1 + '</td><td>' + 
+                      tier2 + '</td><td>' + 
+                      tier2plus +'</td></tr>');
+                }
+                else if(domestic_production ==1){
+                    $('table#table4').append('<tr><td>' + 
                       term + '</td><td>' + 
                       v.desc + '</td><td>' + 
                       tier1 + '</td><td>' + 

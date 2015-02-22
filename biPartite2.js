@@ -1,6 +1,6 @@
 !function(){
 	var bP={};	
-	var b=50, bb=500, height=650, buffMargin=2, minHeight=10;
+	var b=50, bb=500, height=500, buffMargin=1, minHeight=5;
 	var c1=[-130, 60], c2=[-50, 100], c3=[-10, 140]; //Column positions of labels.
 	/*var colors = d3.scale.ordinal().domain(["North America","Asia","Europe","Middle East","Africa","South America"])
 		.range( //colorbrewer.RdBu[6]);
@@ -57,7 +57,7 @@
 					d.percent = scaleFact*d.percent; 
 					d.height=(d.height==m? m : d.height*scaleFact);
 					d.middle=sum+b+d.height/2;
-					d.y=s + d.middle - d.percent*(e-s-2*b*a.length)/2;
+					d.y=s + d.middle - d.percent*(e-s-0.5*b*a.length)/2;
 					d.h= d.percent*(e-s-2*b*a.length);
 					d.percent = (total == 0 ? 0 : d.value/total);
 					sum+=2*b+d.height;
