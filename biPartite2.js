@@ -10,15 +10,27 @@
 	
 	var colors = ["#3182bd", "#6baed6", "#9ecae1","#c6dbef","#e6550d","#fd8d3c","#fdae6b",
  	"#fdd0a2", "#31a354", "#74c476", "#a1d99b", "#c7e9c0", "#756bb1", "#9e9ac8",
- 	"#bcbddc", "#dadaeb", "#636363", "#969696", "#bdbdbd", "#d9d9d9"]
+ 	"#bcbddc", "#dadaeb", "#636363", "#969696", "#bdbdbd", "#d9d9d9",
+ 	"#7b4173", "#a55194", "#ce6dbd", "#de9ed6"];
+
+ 	/*var colors = d3.scale.ordinal()
+   		 .domain(["Africa", "Western Europe and Others", "Eastern Europe", "Asia-Pacific", "Latin America and Caribbean", "NATO"])
+    	.range(["#3182bd", "#6baed6", "#9ecae1","#c6dbef","#e6550d","#fd8d3c","#fdae6b",
+ 				"#fdd0a2", "#31a354", "#74c476", "#a1d99b", "#c7e9c0", "#756bb1", "#9e9ac8",
+ 				"#bcbddc", "#dadaeb", "#636363", "#969696", "#bdbdbd", "#d9d9d9"]);*/
+
+
 	
 	bP.partData = function(data,p){
 		var sData={};
 		
 		sData.keys=[
 			d3.set(data.map(function(d){ return d[0];})).values().sort(function(a,b){ return ( a<b? -1 : a>b ? 1 : 0);}),
-			d3.set(data.map(function(d){ return d[1];})).values().sort(function(a,b){ return ( a<b? -1 : a>b ? 1 : 0);})
+			d3.set(data.map(function(d){ return d[1];})).values().sort(function(a,b){ return ( a<b? -1 : a>b ? 1 : 0);}),
+			d3.set(data.map(function(d){ return d[3];})).values().sort(function(a,b){ return ( a<b? -1 : a>b ? 1 : 0);})
 		];
+
+		//console.log(sData.keys);
 		
 		sData.data = [	sData.keys[0].map( function(d){ return sData.keys[1].map( function(v){ return 0; }); }),
 						sData.keys[1].map( function(d){ return sData.keys[0].map( function(v){ return 0; }); })
@@ -77,6 +89,7 @@
 				calculatePosition(data.data[p][i], bar.y, bar.y+bar.h, 0, 0).forEach(function(sBar,j){ 
 					sBar.key1=(p==0 ? i : j); 
 					sBar.key2=(p==0 ? j : i); 
+					//sBar.key3=(p==0 ? j : i); 
 					vis.subBars[p].push(sBar); 
 				});
 			});
@@ -91,6 +104,7 @@
 			return {
 				key1: p.key1,
 				key2: p.key2,
+				key3: p.key3,
 				y1:p.y,
 				y2:vis.subBars[1][i].y,
 				h1:p.h,
@@ -128,7 +142,7 @@
 			
 		mainbar.append("text").attr("class","barlabel")
 			.attr("x", c1[p]).attr("y",function(d){ return d.middle+5;})
-			.text(function(d,i){ return data.keys[p][i];})
+			.text(function(d,i){return data.keys[p][i];})
 			.attr("text-anchor","start" );
 			
 		/*mainbar.append("text").attr("class","barvalue")
@@ -140,13 +154,15 @@
 			.attr("x", c3[p]).attr("y",function(d){ return d.middle+5;})
 			.text(function(d,i){ return "( "+Math.round(100*d.percent)+"%)" ;})
 			.attr("text-anchor","end").style("fill","grey");*/
-			
+		
+		console.log(data.subBars);
+
 		d3.select("#"+id).select(".part"+p).select(".subbars")
 			.selectAll(".subbar").data(data.subBars[p]).enter()
 			.append("rect").attr("class","subbar")
 			.attr("x", 0).attr("y",function(d){ return d.y})
 			.attr("width",b).attr("height",function(d){ return d.h})
-			.style("fill",function(d){return colors[d.key1];});
+			.style("fill",function(d){ return colors[d.key1];});
 	}
 	
 	function drawEdges(data, id){
@@ -239,12 +255,18 @@
 					.select(".part"+p)
 					.select(".mainbars")
 					.selectAll(".mainbar")
-					.on("mouseover",function(d, i){ return bP.selectSegment(data, p, i); })
-					.on("mouseout",function(d, i){ return bP.deSelectSegment(data, p, i); });	
+					//.on("mouseover",function(d, i){ return bP.selectSegment(data, p, i); })
+					.on("click",function(d, i){ 
+						if (selected != true){ return bP.selectSegment(data, p, i); }
+						else { return bP.deSelectSegment(data, p, i); }
+					})
+					//.on("mouseout",function(d, i){ return bP.deSelectSegment(data, p, i); });	
 			});
 		});	
 	}
 	
+	var selected;
+
 	bP.selectSegment = function(data, m, s){
 		data.forEach(function(k){
 			var newdata =  {keys:[], data:[]};	
@@ -265,6 +287,10 @@
 			selectedBar.select(".barlabel").style('font-weight','bold');
 			selectedBar.select(".barvalue").style('font-weight','bold');
 			selectedBar.select(".barpercent").style('font-weight','bold');
+			selectedBar.select(".subBars").style('font-weight','bold');
+			//selectedBar.select(".barpercent").style('font-weight','bold');
+
+			selected = true;
 		});
 	}	
 	
@@ -279,6 +305,8 @@
 			selectedBar.select(".barlabel").style('font-weight','normal');
 			selectedBar.select(".barvalue").style('font-weight','normal');
 			selectedBar.select(".barpercent").style('font-weight','normal');
+
+			selected = false;
 		});		
 	}
 	

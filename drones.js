@@ -68,7 +68,8 @@ function getParameterByName(name) {
   
   var colors = ["#3182bd", "#6baed6", "#9ecae1","#c6dbef","#e6550d","#fd8d3c","#fdae6b",
   "#fdd0a2", "#31a354", "#74c476", "#a1d99b", "#c7e9c0", "#756bb1", "#9e9ac8",
-  "#bcbddc", "#dadaeb", "#636363", "#969696", "#bdbdbd", "#d9d9d9"];
+  "#bcbddc", "#dadaeb", "#636363", "#969696", "#bdbdbd", "#d9d9d9",
+  "#7b4173", "#a55194", "#ce6dbd", "#de9ed6"];
   
   bP.partData = function(data,p){
     var sData={};
@@ -384,14 +385,14 @@ function loadjscssfile(filename, filetype){
                 var unsub_imp = v.Unsubstantiated_Imports;
                 var unsub_imp_arr = unsub_imp.split(",");
                 for(i=0;i<unsub_imp_arr.length;i++){
-                  if(unsub_imp_arr[i]) {imp_arr.push(unsub_imp_arr[i] + " (*)")}
+                  if(unsub_imp_arr[i]) {imp_arr.push(unsub_imp_arr[i]);}
                 }
 
                 var unsub_exp = v.Unsubstantiated_Exports;
                 var unsub_exp_arr = unsub_exp.split(",");
 
                 for(i=0;i<unsub_exp_arr.length;i++){
-                  if(unsub_exp_arr[i]) {exp_arr.push(unsub_exp_arr[i] + " (*)")}
+                  if(unsub_exp_arr[i]) {exp_arr.push(unsub_exp_arr[i]);}
                 }
 
                 var nato = v.NATO;
@@ -434,11 +435,20 @@ function loadjscssfile(filename, filetype){
                 var used_armed_drones_in_combat = v.used_armed_drones_in_combat;
                 var have_armed_drones = v.have_armed_drones;
                 var developing_armed_drones = v.developing_armed_drones;
+                var source = v.source;
+                var source_arr = source.split(";");
+                var sources = [];
+
+                for(i=0;i< source_arr.length; i++){
+                      	var t = source_arr[i].split(": ");
+                      	var p = '<a href="' + encodeURI(t[1]) + '">' + t[0] + '</a>';
+                      	sources.push(p);
+                      }
 
                 if(used_armed_drones_in_combat == 1){ 
                     $('table#table1').append('<tr><td>' + 
                       term + '</td><td>' + 
-                      v.desc + '</td><td>' + 
+                      v.desc + '<br /><br />Source(s): ' + sources + '</td><td>' + 
                       tier1 + '</td><td>' + 
                       tier2 + '</td><td>' + 
                       tier2plus +'</td></tr>');
@@ -447,7 +457,7 @@ function loadjscssfile(filename, filetype){
                 else if(have_armed_drones ==1){ 
                     $('table#table2').append('<tr><td>' + 
                       term + '</td><td>' + 
-                      v.desc + '</td><td>' + 
+                      v.desc + '<br /><br />Source(s): ' + sources + '</td><td>' + 
                       tier1 + '</td><td>' + 
                       tier2 + '</td><td>' + 
                       tier2plus +'</td></tr>');
@@ -456,7 +466,7 @@ function loadjscssfile(filename, filetype){
                 else if(developing_armed_drones == 1) {
                     $('table#table3').append('<tr><td>' + 
                       term + '</td><td>' + 
-                      v.desc + '</td><td>' + 
+                      v.desc + '<br /><br />Source(s): ' + sources + '</td><td>' + 
                       tier1 + '</td><td>' + 
                       tier2 + '</td><td>' + 
                       tier2plus +'</td></tr>');
@@ -464,7 +474,7 @@ function loadjscssfile(filename, filetype){
                 else if(domestic_production ==1){
                     $('table#table4').append('<tr><td>' + 
                       term + '</td><td>' + 
-                      v.desc + '</td><td>' + 
+                      v.desc + '<br /><br />Source(s): ' + sources + '</td><td>' + 
                       tier1 + '</td><td>' + 
                       tier2 + '</td><td>' + 
                       tier2plus +'</td></tr>');
